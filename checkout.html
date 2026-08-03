@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Sree Vasthra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<nav>
+<div class="logo">
+    <img src="images/logo.png" alt="Logo">
+</div>
+<div class="nav">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+</div>
+</nav>
+<section class="checkout">
+    <h1>Checkout</h1>
+    <form id="checkoutForm">
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="tel" placeholder="Phone Number" required>
+        <textarea placeholder="Delivery Address" required></textarea>
+        <select required>
+            <option value="">Select Payment Method</option>
+            <option>Cash on Delivery</option>
+            <option>UPI</option>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+        </select>
+        <div class="coupon-box">
+            <h3>Apply Coupon</h3>
+            <input
+            type="text"
+            id="couponCode"
+            placeholder="Enter Coupon Code">
+            <button id="applyCoupon">
+                Apply
+            </button>
+            <p id="couponMessage"></p>
+        </div>
+        <button class="place-order">Place Order</button>
+    </form>
+</section>
+<footer class="footer">
+    <p>&copy; 2026 Sree Vasthra. All Rights Reserved.</p>
+</footer>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SREE VASTHRA</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <nav>
+        
+        <div class="logo">
+            <img src="images/logo.png">
+        </div>
+        <div class="nav">
+            <input
+            type="text"
+            id="search"
+            placeholder="Search products..."
+            class="search-box">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>  
+            </div>
+            <div class="icons">
+                <a href="wishlist.html">
+                    <i class="fa-regular fa-heart"></i>
+                </a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count">0</span>
+                </a>
+                <a href="login.html">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+                <button id="darkModeBtn">🌙</button>
+            </div>
+    </nav>
+        <main class="main">
+          <section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Sree Vasthra</h1>
+        <p>Elegant Ethnic Wear for Every Occasion</p>
+
+        <a href="product-details.html">
+            <button>Shop Now</button>
+        </a>
+    </div>
+</section>
+<section class="banner-slider">
+
+    <div class="slides">
+
+        <img src="images/banner1.png" class="slide active">
+
+        <img src="images/banner2.png" class="slide">
+
+        <img src="images/banner3.png" class="slide">
+
+    </div>
+
+</section>
+            <section class="categories">
+                <h2>Shop By Category</h2>
+                <div class="category-card">
+                    <img src="images/kurti-category.jpg" alt="Kurti">
+                    <h3>Kurtis</h3>
+                </div>
+                <div class="category-card">
+                    <img src="images/saree-category.jpg" alt="Sarees">
+                     <h3>Sarees</h3>
+                 </div>
+                <div class="category-card">
+                    <img src="images/lehenga-choli.jpg" alt="Lehengas">
+                    <h3>Lehengas</h3>
+                </div>
+                <div class="category-card">
+                    <img src="images/indo-western set.jpg" alt="Party Wear">
+                    <h3>Party Wear</h3>
+                </div>
+            </section>
+            <section class="product-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="kurti">Kurtis</button>
+                <button class="filter-btn" data-filter="saree">Sarees</button>
+                <button class="filter-btn" data-filter="lehenga">Lehengas</button>
+                <button class="filter-btn" data-filter="party">Party Wear</button>
+            </section>
+            <div class="sort-container">
+                <label>Sort By:</label>
+                <select id="sortProducts">
+                    <option value="default">Default</option>
+                    <option value="low">Price: Low to High</option>
+                    <option value="high">Price: High to Low</option>
+                    <option value="name">Name (A-Z)</option>
+                 </select>
+            </div>
+            <section class="products">
+                <h2> Featured Products</h2>
+                <div class="product-card" 
+                     data-category="kurti"
+                     data-price="999">
+                    <span class="discount">20% OFF</span>
+                     <i class="fa-regular fa-heart wishlist"></i>
+                     <img src="images/pink kurta.webp"
+                         alt="Pink Kurti"
+                         class="zoom-img quick-view"
+                         data-name="Pink Kurti"
+                         data-price="₹999"
+                         data-image="images/pink kurta.webp"
+                         data-description="Beautiful cotton kurti perfect for casual wear and festive occasions.">
+                     <h3>Pink Kurti</h3>
+                     <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹999</p>
+                    <a href="product-details.html">
+                        <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+                <div class="product-card"
+                     data-category="saree"
+                     data-price="1299">
+                    <span class="discount">15% OFF</span>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <img src="images/party-wear saree.jpg"
+                         alt="Party Wear Saree"
+                         class="zoom-img quick-view"
+                         data-name="Party Wear Saree"
+                         data-price="₹1299"
+                         data-image="images/party-wear saree.jpg"
+                         data-description="Elegant party wear saree with premium fabric and stylish design.">
+                    <h3>Party Wear Saree</h3>
+                    <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹1299</p>
+                    <a href="product-details.html">
+                        <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+                <div class="product-card"
+                     data-category="gown"
+                     data-price="699">
+                    <span class="discount">25% OFF</span>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <img src="images/party-gown.jpg"
+                         alt="Party Gown"
+                         class="zoom-img quick-view"
+                         data-name="Party Gown"
+                         data-price="₹699"
+                         data-image="images/party-gown.jpg"
+                         data-description="Elegant party gown with a beautiful design and comfortable fit.">
+                    <h3>Party Gown</h3>
+                    <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹699</p>
+                    <a href="product-details.html">
+                        <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+                <div class="product-card" 
+                     data-category="lehenga"
+                     data-price="1499">
+                    <span class="discount">30% OFF</span>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <img src="images/kalamkari-Lehenga.jpg"
+                         alt="Kalamkari Lehenga"
+                         class="quick-view zoom-img"
+                         data-name="Kalamkari Lehenga"
+                         data-price="₹1499"
+                         data-image="images/kalamkari-Lehenga.jpg"
+                         data-description="Beautiful Kalamkari lehenga with intricate designs and premium fabric.">
+                    <h3>Kalamkari Lehenga</h3>
+                    <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹1499</p>
+                    <a href="product-details.html">
+                        <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+                <div class="product-card"
+                     data-category="sharara"
+                     data-price="2599">
+                    <span class="discount">20% OFF</span>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <img src="images/sharara-set.jpg"
+                         alt="Sharara Set"
+                         class="quick-view zoom-img"
+                         data-name="Sharara Set"
+                         data-price="₹2599"
+                         data-image="images/sharara-set.jpg"
+                         data-description="Elegant sharara set with a beautiful design and comfortable fit.">
+                    <h3>Sharara Set</h3>
+                    <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹2599</p>
+                    <a href="product-details.html">
+                        <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+                <div class="product-card" 
+                     data-category="western"
+                     data-price="1599">
+                    <span class="discount">10% OFF</span>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <img src="images/indo-western wear.jpg"
+                         alt="Indo-Western Wear"
+                         class="quick-view zoom-img"
+                         data-name="Indo-Western Wear"
+                         data-price="₹1599"
+                         data-image="images/indo-western wear.jpg"
+                         data-description="Stylish Indo-Western wear for a perfect blend of tradition and modernity.">
+                    <h3>Indo-Western Wear</h3>
+                    <div class="rating">
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                        <i class="fa-regular fa-star star"></i>
+                    </div>
+                    <p>₹1599</p>
+                    <a href="product-details.html">
+                       <button class="cart-btn">Add to Cart</button>
+                    </a>
+                </div>
+            </section>
+            <section class="brand-banner">
+    <div class="banner-content">
+        <h2>Celebrate Every Occasion with Sree Vasthra</h2>
+        <p>
+            Discover elegant ethnic wear crafted with premium fabrics,
+            timeless designs, and unmatched comfort.
+        </p>
+        <a href="products.html">
+            <button>Explore Collection</button>
+        </a>
+    </div>
+</section>
+<section class="brands">
+    <h2>Our Collections</h2>
+    <div class="brand-container">
+        <div class="brand-card">
+            <img src="images/kurti-category.jpg" alt="">
+            <h3>Kurtis</h3>
+        </div>
+        <div class="brand-card">
+            <img src="images/saree-category.jpg" alt="">
+            <h3>Sarees</h3>
+        </div>
+        <div class="brand-card">
+            <img src="images/kalamkari-Lehenga.jpg" alt="">
+            <h3>Lehengas</h3>
+        </div>
+        <div class="brand-card">
+            <img src="images/party-gown.jpg" alt="">
+            <h3>Party Wear</h3>
+        </div>
+    </div>
+</section>
+<section class="recently-viewed">
+    <h2>Recently Viewed</h2>
+    <div id="recentProducts" class="recent-container">
+        <p>No recently viewed products.</p>
+    </div>
+</section>
+<section class="offers">
+    <h2>🔥 Today's Special Offers</h2>
+    <div class="offer-container">
+        <div class="offer-card">
+            <h3>Flat 50% OFF</h3>
+            <p>On Selected Kurtis</p>
+        </div>
+        <div class="offer-card">
+            <h3>Buy 2 Get 1 Free</h3>
+            <p>On Party Wear Collection</p>
+        </div>
+        <div class="offer-card">
+            <h3>Free Shipping</h3>
+            <p>On Orders Above ₹999</p>
+        </div>
+    </div>
+</section>
+<section class="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-container">
+        <div class="testimonial-card">
+            <img src="images/customer1.jpg" alt="Customer 1">
+            <h3>Priya S.</h3>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"The quality is amazing and the delivery was very fast. I loved my kurti!"</p>
+        </div>
+        <div class="testimonial-card">
+            <img src="images/customer2.jpg" alt="Customer 2">
+            <h3>Ananya R.</h3>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Beautiful collection with affordable prices. Highly recommended!"</p>
+        </div>
+        <div class="testimonial-card">
+            <img src="images/customer3.jpg" alt="Customer 3">
+            <h3>Kavya M.</h3>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Excellent fabric quality and secure packaging. Will shop again."</p>
+        </div>
+    </div>
+</section>
+<section class="newsletter">
+    <h2>Stay Updated!</h2>
+    <p>
+        Subscribe to get the latest fashion trends,
+        exclusive offers and new arrivals.
+    </p>
+    <form id="newsletterForm">
+        <input
+        type="email"
+        id="newsletterEmail"
+        placeholder="Enter your email"
+        required>
+        <button type="submit">
+            Subscribe
+        </button>
+    </form>
+</section>
+<button id="topBtn" title="Go to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <img id="popup-img">
+        <h2 id="popup-name"></h2>
+        <h3 id="popup-price"></h3>
+        <p id="popup-description"></p>
+        <button class="cart-btn">
+            Add to Cart
+        </button>
+    </div>
+</div>
+</main>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+             <h3>Sree Vasthra</h3>
+             <p>
+                Elegant ethnic wear for every occasion.
+                We bring you premium quality fashion
+                at affordable prices.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-box">
+            <h3>Customer Support</h3>
+            <a href="faq.html">FAQ</a>
+            <a href="cart.html">Cart</a>
+            <a href="checkout.html">Checkout</a>
+        </div>
+        <div class="footer-box">
+            <h3>Follow Us</h3>
+            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+    </div>
+    <hr>
+    <p class="copyright">
+        © 2026 Sree Vasthra. All Rights Reserved.
+    </p>
+</footer>
+    <script src="js/script.js"></script>   
+<div id="toast"></div>
+<a href="https://wa.me/9392860223"
+   class="whatsapp"
+   target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+<a href="tel:+919392860223"
+   class="call-btn">
+<i class="fa-solid fa-phone"></i>
+</a>
+</body>
+</html>
