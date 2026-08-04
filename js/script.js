@@ -37,73 +37,49 @@ wishlistIcons.forEach(icon => {
     });
 
 });
-
 // =======================
-// Cart Counter
+// Cart Counter (Local Storage)
 // =======================
-
+let count = localStorage.getItem("cartCount");
+if (count === null) {
+    count = 0;
+} else {
+    count = parseInt(count);
+}
 const cartButtons = document.querySelectorAll(".cart-btn");
 const cartCount = document.getElementById("cart-count");
-
-// Get saved cart count
-let count = localStorage.getItem("cartCount");
-
-if(count === null){
-    count = 0;
-}else{
-    count = Number(count);
-}
-
-if(cartCount){
+if (cartCount) {
     cartCount.textContent = count;
 }
-
-cartButtons.forEach(button=>{
-
-    button.addEventListener("click",function(){
-
+cartButtons.forEach(button => {
+    button.addEventListener("click", function () {
         count++;
-
-        localStorage.setItem("cartCount",count);
-
-        if(cartCount){
+        localStorage.setItem("cartCount", count);
+        if (cartCount) {
             cartCount.textContent = count;
         }
-
-        showToast("🛒 Product Added to Cart!");
-
+        showToast("✅ Product Added to Cart!");
     });
-
 });
 // =======================
 // Product Search
 // =======================
 
 const search = document.getElementById("search");
-
 if(search){
-
 search.addEventListener("keyup", function(){
-
     const value = search.value.toLowerCase();
-
     const products = document.querySelectorAll(".product-card");
-
     products.forEach(product=>{
-
         const name = product.querySelector("h3").textContent.toLowerCase();
-
         if(name.includes(value)){
             product.style.display="block";
         }
         else{
             product.style.display="none";
         }
-
     });
-
 });
-
 }
 // =======================
 // Dark Mode
@@ -481,5 +457,39 @@ if(couponBtn){
             message.innerHTML = "❌ Invalid Coupon Code";
             message.style.color = "red";
         }
+    });
+}
+// =======================
+// Active Navigation Link
+// =======================
+
+const currentPage = window.location.pathname.split("/").pop();
+const navLinks = document.querySelectorAll(".nav a");
+navLinks.forEach(link => {
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+        link.classList.add("active");
+    }
+});
+// =======================
+// Product Category Filter
+// =======================
+
+const filterButtons = document.querySelectorAll(".filter-btn");
+const productCards = document.querySelectorAll(".product-card");
+if (filterButtons.length > 0) {
+    filterButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            filterButtons.forEach(btn => btn.classList.remove("active"));
+            this.classList.add("active");
+            const filter = this.dataset.filter;
+            productCards.forEach(card => {
+                if (filter === "all" || card.dataset.category === filter) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
     });
 }
