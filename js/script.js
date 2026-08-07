@@ -135,17 +135,14 @@ window.onscroll = function(){
     }
 
 };
-
-topBtn.addEventListener("click", function(){
-
-    window.scrollTo({
-
-        top:0,
-        behavior:"smooth"
-
+if(topBtn){
+    topBtn.addEventListener("click", function(){
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
     });
-
-});
+}
 // =======================
 // Hero Slider
 // =======================
@@ -190,13 +187,12 @@ quickViews.forEach(img => {
     });
 
 });
-
-document.querySelector(".close-popup").addEventListener("click", function(){
-
-    popup.style.display = "none";
-
-});
-
+const closePopup = document.querySelector(".close-popup");
+if(closePopup){
+    closePopup.addEventListener("click", function(){
+        popup.style.display = "none";
+    });
+}
 window.addEventListener("click", function(e){
 
     if(e.target == popup){
@@ -204,35 +200,6 @@ window.addEventListener("click", function(e){
         popup.style.display = "none";
 
     }
-
-});
-const filterButtons = document.querySelectorAll(".filter-btn");
-
-filterButtons.forEach(button=>{
-
-    button.addEventListener("click",function(){
-
-        filterButtons.forEach(btn=>btn.classList.remove("active"));
-
-        this.classList.add("active");
-
-        const category = this.dataset.filter;
-
-        document.querySelectorAll(".product-card").forEach(card=>{
-
-            if(category==="all" || card.dataset.category===category){
-
-                card.style.display="block";
-
-            }else{
-
-                card.style.display="none";
-
-            }
-
-        });
-
-    });
 
 });
 // =======================
@@ -310,45 +277,6 @@ if(clearCart){
         }
 
         showToast("🗑️ Cart Cleared!");
-
-    });
-
-}
-// =======================
-// Coupon Code
-// =======================
-
-const couponBtn = document.getElementById("applyCoupon");
-
-if(couponBtn){
-
-    couponBtn.addEventListener("click",function(){
-
-        const code = document.getElementById("coupon").value.toUpperCase();
-
-        const total = document.getElementById("grandTotal");
-
-        if(code==="SREE10"){
-
-            total.textContent="Grand Total : ₹2068";
-
-            showToast("🎉 Coupon Applied Successfully!");
-
-        }
-
-        else if(code==="WELCOME20"){
-
-            total.textContent="Grand Total : ₹1838";
-
-            showToast("🎉 Coupon Applied Successfully!");
-
-        }
-
-        else{
-
-            showToast("❌ Invalid Coupon Code");
-
-        }
 
     });
 
