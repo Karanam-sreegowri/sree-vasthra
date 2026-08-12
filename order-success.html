@@ -1,32 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Successful | Sree Vasthra</title>
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Successful | Sree Vasthra</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
 <section class="success-page">
 
-<i class="fa-solid fa-circle-check"></i>
+    <i class="fa-solid fa-circle-check"></i>
 
-<h1>Order Placed Successfully!</h1>
+    <h1>Order Placed Successfully!</h1>
 
-<p>Thank you for shopping with Sree Vasthra.</p>
+    <p>Thank you for shopping with Sree Vasthra.</p>
 
-<p>Your Order ID: <strong>SV123456</strong></p>
+    <p>
+        Your Order ID:
+        <strong id="orderId"></strong>
+    </p>
 
-<a href="index.html">
-<button>Continue Shopping</button>
-</a>
+    <p>
+        Customer:
+        <strong id="customerName"></strong>
+    </p>
+
+    <p>
+        Payment Method:
+        <strong id="paymentMethod"></strong>
+    </p>
+
+    <p>
+        Order Status:
+        <strong id="orderStatus"></strong>
+    </p>
+
+    <p>
+        Total:
+        <strong id="orderTotal"></strong>
+    </p>
+
+    <a href="index.html">
+        <button>Continue Shopping</button>
+    </a>
 
 </section>
 
+<script>
+
+const order = JSON.parse(localStorage.getItem("lastOrder"));
+
+if (order) {
+
+    document.getElementById("orderId").textContent = order.orderId;
+
+    document.getElementById("customerName").textContent = order.name;
+
+    document.getElementById("paymentMethod").textContent =
+        order.paymentMethod;
+    document.getElementById("orderStatus").textContent =
+        order.status;
+    document.getElementById("orderTotal").textContent =
+        "₹" + order.total;
+}
+</script>
 </body>
 </html>

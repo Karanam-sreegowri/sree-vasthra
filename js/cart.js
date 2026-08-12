@@ -1,45 +1,45 @@
-// Get cart data from localStorage
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+// =======================
+// Load Cart
+// =======================
+let cartData = JSON.parse(localStorage.getItem("cart")) || [];
 const cartItems = document.getElementById("cart-items");
-const grandTotal =
-    document.getElementById("grand-total") ||
-    document.getElementById("grandTotal");
+const grandTotal = document.getElementById("grand-total");
+const clearCart = document.getElementById("clearCart");
+// =======================
+// Display Cart
+// =======================
+
 function loadCart() {
+    if (!cartItems || !grandTotal) {
+        return;
+    }
     cartItems.innerHTML = "";
     let total = 0;
-    cart.forEach((item, index) => {
-        if (!item.name || !item.price) {
-            return;
-        }
+    cartData.forEach(function(item) {
         total += Number(item.price) * Number(item.quantity);
         cartItems.innerHTML += `
-        <tr>
-            <td>${item.name}</td>
-            <td>₹${item.price}</td>
-            <td>${item.quantity}</td>
-            <td>₹${item.price * item.quantity}</td>
-        </tr>
+            <tr>
+                <td>${item.name}</td>
+                <td>₹${item.price}</td>
+                <td>${item.quantity}</td>
+                <td>₹${Number(item.price) * Number(item.quantity)}</td>
+            </tr>
         `;
     });
-    if (grandTotal) {
-        grandTotal.textContent = total;
-    }
+    grandTotal.textContent = `₹${total}`;
 }
 // =======================
 // Clear Cart
 // =======================
 
-const clearCart = document.getElementById("clearCart");
-
 if (clearCart) {
 
-    clearCart.addEventListener("click", function () {
+    clearCart.addEventListener("click", function() {
 
         localStorage.removeItem("cart");
         localStorage.removeItem("cartCount");
 
-        cart = [];
+        cartData = [];
 
         loadCart();
 
@@ -49,8 +49,36 @@ if (clearCart) {
             cartCount.textContent = "0";
         }
 
-        showToast("🗑️ Cart Cleared!");
-
     });
+}
 
+
+// =======================
+// Load cart when page opens
+// =======================
+
+loadCart();
+// =======================
+// Coupon
+// =======================
+
+const couponInput = document.getElementById("coupon");
+const applyCoupon = document.getElementById("applyCoupon");
+if (applyCoupon) {
+    applyCoupon.addEventListener("click", function () {
+        const coupon = couponInput.value.trim().toUpperCase();
+        if (coupon === "SREE10") {
+            const subtotal = cartData.reduce(
+                (total, item) =>
+                    total + Number(item.price) * Number(item.quantity),
+                0
+            );
+            const discount = subtotal * 0.10;
+            const total = subtotal - discount;
+            grandTotal.textContent = `Grand Total : ₹${total.toFixed(2)}`;
+            alert("Coupon applied! 10% discount added.");
+        } else {
+            alert("Invalid coupon code.");
+        }
+    });
 }

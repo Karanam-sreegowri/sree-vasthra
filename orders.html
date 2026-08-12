@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Sree Vasthra</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="logo">
+            <img src="images/logo.png" alt="Sree Vasthra">
+        </div>
+
+        <div class="nav">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="track-order.html">Track Order</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+
+    </nav>
+
+
+    <section class="orders-page">
+
+        <h1>My Orders</h1>
+
+        <div id="ordersList"></div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        <p>&copy; 2026 Sree Vasthra. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <script>
+
+        const ordersList =
+            document.getElementById("ordersList");
+
+        const orderHistory =
+            JSON.parse(
+                localStorage.getItem("orderHistory")
+            ) || [];
+
+
+        if (orderHistory.length === 0) {
+
+            ordersList.innerHTML = `
+                <div class="no-orders">
+                    <i class="fa-solid fa-box-open"></i>
+                    <h2>No Orders Yet</h2>
+                    <p>You haven't placed any orders yet.</p>
+
+                    <a href="products.html">
+                        <button>Shop Now</button>
+                    </a>
+                </div>
+            `;
+
+        } else {
+
+            orderHistory
+                .slice()
+                .reverse()
+                .forEach(function(order) {
+
+                    let productsHTML = "";
+
+                    order.products.forEach(function(product) {
+
+                        productsHTML += `
+                            <div class="order-product">
+
+                                <img
+                                    src="${product.image}"
+                                    alt="${product.name}">
+
+                                <div>
+                                    <h4>${product.name}</h4>
+
+                                    <p>
+                                        Quantity:
+                                        ${product.quantity}
+                                    </p>
+
+                                    <p>
+                                        Price:
+                                        ₹${product.price}
+                                    </p>
+                                </div>
+
+                            </div>
+                        `;
+
+                    });
+
+
+                    ordersList.innerHTML += `
+
+                        <div class="order-card">
+
+                            <div class="order-header">
+
+                                <h2>
+                                    Order #${order.orderId}
+                                </h2>
+
+                                <span>
+                                    ${order.status}
+                                </span>
+
+                            </div>
+
+
+                            <p>
+                                <strong>Date:</strong>
+                                ${order.date}
+                            </p>
+
+
+                            <div class="customer-info">
+
+                                <p>
+                                    <strong>Name:</strong>
+                                    ${order.name}
+                                </p>
+
+                                <p>
+                                    <strong>Email:</strong>
+                                    ${order.email}
+                                </p>
+
+                                <p>
+                                    <strong>Phone:</strong>
+                                    ${order.phone}
+                                </p>
+
+                                <p>
+                                    <strong>Address:</strong>
+                                    ${order.address}
+                                </p>
+
+                                <p>
+                                    <strong>Payment:</strong>
+                                    ${order.paymentMethod}
+                                </p>
+
+                            </div>
+
+
+                            <h3>Products</h3>
+
+                            <div class="order-products">
+
+                                ${productsHTML}
+
+                            </div>
+
+
+                            <div class="order-total">
+
+                                <strong>
+                                    Total: ₹${order.total}
+                                </strong>
+
+                            </div>
+
+
+                            <a
+                                href="track-order.html">
+
+                                <button>
+                                    Track Order
+                                </button>
+
+                            </a>
+
+                        </div>
+
+                    `;
+
+                });
+
+        }
+
+    </script>
+
+</body>
+</html>

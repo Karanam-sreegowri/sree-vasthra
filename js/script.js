@@ -1,29 +1,46 @@
-function showToast(message){
-
+function showToast(message) {
     const toast = document.getElementById("toast");
-
-    if(!toast) return;
-
+    if (!toast) return;
     toast.textContent = message;
-
     toast.classList.add("show");
-
-    setTimeout(function(){
-
+    setTimeout(function () {
         toast.classList.remove("show");
-
-    },2500);
-
+    }, 2500);
 }
 // =======================
 // Wishlist
 // =======================
-
 const wishlistIcons = document.querySelectorAll(".wishlist");
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 wishlistIcons.forEach(icon => {
+    const card = icon.closest(".product-card");
+    const nameElement = card ? card.querySelector("h3") : null;
+    const productName = nameElement
+        ? nameElement.textContent.trim()
+        : "";
+    // Restore wishlist after page refresh
+    if (wishlist.includes(productName)) {
+        icon.classList.remove("fa-regular");
+        icon.classList.add("fa-solid");
+    }
     icon.addEventListener("click", function () {
-        this.classList.toggle("fa-solid");
-        this.classList.toggle("fa-regular");
+        if (wishlist.includes(productName)) {
+            // Remove from wishlist
+            wishlist = wishlist.filter(
+                item => item !== productName
+            );
+            this.classList.remove("fa-solid");
+            this.classList.add("fa-regular");
+        } else {
+            // Add to wishlist
+            wishlist.push(productName);
+            this.classList.remove("fa-regular");
+            this.classList.add("fa-solid");
+        }
+        localStorage.setItem(
+            "wishlist",
+            JSON.stringify(wishlist)
+        );
     });
 });
 // =======================
@@ -38,15 +55,11 @@ if (cartCount) {
 }
 cartButtons.forEach(button => {
     button.addEventListener("click", function (e) {
-
         e.preventDefault();
-
         const card = this.closest(".product-card");
-
         const image = card ? card.querySelector("img") : null;
         const nameElement = card ? card.querySelector("h3") : null;
         const priceElement = card ? card.querySelector("p") : null;
-
         const product = {
             name: this.dataset.name || nameElement?.textContent.trim(),
             price: Number(
@@ -57,33 +70,10 @@ cartButtons.forEach(button => {
             image: this.dataset.image || image?.getAttribute("src"),
             quantity: 1
         };
-
         console.log("Product added:", product);
-
         const existingProduct = cart.find(
             item => item.name === product.name
         );
-
-        if (existingProduct) {
-            existingProduct.quantity++;
-        } else {
-            cart.push(product);
-        }
-
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        count++;
-
-        localStorage.setItem("cartCount", count);
-
-        if (cartCount) {
-            cartCount.textContent = count;
-        }
-
-        showToast("✅ Product Added to Cart!");
-    });
-});
-        const existingProduct = cart.find(item => item.name === product.name);
         if (existingProduct) {
             existingProduct.quantity++;
         } else {
@@ -121,27 +111,20 @@ search.addEventListener("keyup", function(){
 // =======================
 // Dark Mode
 // =======================
-
 const darkBtn = document.getElementById("darkModeBtn");
-
 if(darkBtn){
-
     darkBtn.addEventListener("click", function(){
-
         document.body.classList.toggle("dark-mode");
-
+        if(document.body.classList.contains("dark-mode")){
+            darkBtn.textContent = "☀️";
+        }else{
+            darkBtn.textContent = "🌙";
+        }
     });
-
-}
-if(document.body.classList.contains("dark-mode")){
-    darkBtn.textContent = "☀️";
-}else{
-    darkBtn.textContent = "🌙";
 }
 // =======================
 // Newsletter
 // =======================
-
 const newsletterForm = document.getElementById("newsletterForm");
 
 if(newsletterForm){
@@ -155,28 +138,22 @@ newsletterForm.addEventListener("submit", function(e){
 // =======================
 // Back To Top Button
 // =======================
-
 const topBtn = document.getElementById("topBtn");
-
-window.onscroll = function(){
-
-    if(document.body.scrollTop > 300 || document.documentElement.scrollTop > 300){
-
-        topBtn.style.display = "block";
-
-    }
-    else{
-
-        topBtn.style.display = "none";
-
-    }
-
-};
 if(topBtn){
+    window.onscroll = function(){
+        if(
+            document.body.scrollTop > 300 ||
+            document.documentElement.scrollTop > 300
+        ){
+            topBtn.style.display = "block";
+        }else{
+            topBtn.style.display = "none";
+        }
+    };
     topBtn.addEventListener("click", function(){
         window.scrollTo({
-            top:0,
-            behavior:"smooth"
+            top: 0,
+            behavior: "smooth"
         });
     });
 }
@@ -220,28 +197,71 @@ window.addEventListener("click", function(e){
     }
 });
 // =======================
-// Checkout Form
+// Checkout Form & Order Details
 // =======================
-
 const checkoutForm = document.getElementById("checkoutForm");
-
-if(checkoutForm){
-
-    checkoutForm.addEventListener("submit", function(e){
-
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function(e) {
         e.preventDefault();
-
-        showToast("🎉 Your order has been placed successfully!");
-
-        window.location.href = "index.html";
-
+        const cartItems =
+            JSON.parse(localStorage.getItem("cart")) || [];
+        const order = {
+            orderId: "SV" + Date.now(),
+            name:
+                document.getElementById("customerName").value,
+            email:
+                document.getElementById("customerEmail").value,
+            phone:
+                document.getElementById("customerPhone").value,
+            address:
+                document.getElementById("customerAddress").value,
+            paymentMethod:
+                document.getElementById("paymentMethod").value,
+            products: cartItems,
+            total: cartItems.reduce(
+                (sum, item) =>
+                    sum +
+                    Number(item.price) *
+                    Number(item.quantity),
+                0
+            ),
+            status: "Order Placed",
+            date: new Date().toLocaleString()
+        };
+        // =======================
+        // Save Latest Order
+        // =======================
+        localStorage.setItem(
+            "lastOrder",
+            JSON.stringify(order)
+        );
+        // =======================
+        // Save Order History
+        // =======================
+        let orderHistory =
+            JSON.parse(
+                localStorage.getItem("orderHistory")
+            ) || [];
+        orderHistory.push(order);
+        localStorage.setItem(
+            "orderHistory",
+            JSON.stringify(orderHistory)
+        );
+        // Clear cart after successful order
+         localStorage.removeItem("cart");
+         localStorage.removeItem("cartCount");
+        // Success message
+        showToast(
+            "🎉 Your order has been placed successfully!"
+        );
+        setTimeout(function() {
+            window.location.href =
+                "order-success.html";
+        }, 2500);
     });
-
 }
 const sortSelect = document.getElementById("sortProducts");
-
 if(sortSelect){
-
 sortSelect.addEventListener("change", function(){
 
     const productsContainer = document.querySelector(".products");
@@ -324,39 +344,110 @@ result.style.color="red";
 // Order Tracking
 // =======================
 const trackBtn = document.getElementById("trackBtn");
-if(trackBtn){
-trackBtn.addEventListener("click",function(){
-const id=document.getElementById("orderId").value;
-const status=document.getElementById("orderStatus");
-if(id==="SV12345"){
-status.innerHTML="📦 Your order has been shipped and will arrive in 2 days.";
-status.style.color="green";
-}
-else{
-status.innerHTML="❌ Order ID not found.";
-status.style.color="red";
-}
-});
-}
-const submitReview = document.getElementById("submitReview");
-if(submitReview){
-    submitReview.addEventListener("click",function(){
-        const name = document.getElementById("reviewName").value;
-        const review = document.getElementById("reviewText").value;
-        if(name==="" || review===""){
-            showToast("Please fill all fields!");
+if (trackBtn) {
+    trackBtn.addEventListener("click", function () {
+        const id =
+            document.getElementById("orderId").value.trim();
+        const status =
+            document.getElementById("orderStatus");
+        const order =
+            JSON.parse(localStorage.getItem("lastOrder"));
+        if (!order) {
+            status.innerHTML = "❌ No order found.";
             return;
         }
-        const reviewList = document.getElementById("reviewList");
-        reviewList.innerHTML += `
-            <div class="review">
-                <h4>${name} ⭐⭐⭐⭐⭐</h4>
-                <p>${review}</p>
+        if (id !== order.orderId) {
+            status.innerHTML = "❌ Order ID not found.";
+            status.style.color = "red";
+            return;
+        }
+        status.style.color = "";
+const statuses = [
+    "Order Placed",
+    "Order Confirmed",
+    "Shipped",
+    "Out for Delivery",
+    "Delivered",
+    "Cancelled"
+];
+const currentStatus = order.status || "Order Placed";
+const currentIndex = statuses.indexOf(currentStatus);
+let timelineHTML = "";
+if (currentStatus === "Cancelled") {
+    timelineHTML = `
+        <div class="tracking-step active">
+            <span>✓</span>
+            <div>
+                <strong>Order Placed</strong>
+                <p>Your order was placed successfully.</p>
             </div>
+        </div>
+        <div class="tracking-line"></div>
+        <div class="tracking-step active">
+            <span>✕</span>
+            <div>
+                <strong>Order Cancelled</strong>
+                <p>Your order has been cancelled.</p>
+            </div>
+        </div>
+    `;
+} else {
+statuses.forEach(function(statusName, index) {
+                const isCompleted = index <= currentIndex;
+                const isCurrent = index === currentIndex;
+    timelineHTML += `
+        <div class="tracking-step ${isCompleted ? "active" : ""}">
+            <span>
+                ${isCompleted ? "✓" : index + 1}
+            </span>
+            <div>
+                <strong>
+                    ${statusName}
+                    ${isCurrent ? " (Current)" : ""}
+                </strong>
+                <p>
+                    ${
+                        statusName === "Order Placed"
+                        ? "Your order has been placed successfully."
+                        : statusName === "Order Confirmed"
+                        ? "Your order has been confirmed."
+                        : statusName === "Shipped"
+                        ? "Your order has been shipped."
+                        : statusName === "Out for Delivery"
+                        ? "Your order is out for delivery."
+                        : "Your order has been delivered."
+                    }
+                </p>
+            </div>
+        </div>
+    `;
+    if (index < statuses.length - 1) {
+        timelineHTML += `
+            <div class="tracking-line"></div>
         `;
-        document.getElementById("reviewName").value="";
-        document.getElementById("reviewText").value="";
-        showToast("Review Submitted!");
+    }
+});
+}
+status.innerHTML = `
+    <div class="tracking-box">
+        <h2>📦 Order Found</h2>
+        <p>
+            <strong>Order ID:</strong>
+            ${order.orderId}
+        </p>
+        <div class="tracking-timeline">
+            ${timelineHTML}
+        </div>
+        <p>
+            <strong>Current Status:</strong>
+            ${currentStatus}
+        </p>
+        <p>
+            <strong>Total:</strong>
+            ₹${order.total}
+        </p>
+    </div>
+    `;
     });
 }
 // =======================
