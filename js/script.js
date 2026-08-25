@@ -126,13 +126,11 @@ if(darkBtn){
 // Newsletter
 // =======================
 const newsletterForm = document.getElementById("newsletterForm");
-
 if(newsletterForm){
 newsletterForm.addEventListener("submit", function(e){
     e.preventDefault();
     showToast("🎉 Thank you for subscribing!");
     newsletterForm.reset();
-
 });
 }
 // =======================
@@ -160,7 +158,6 @@ if(topBtn){
 // =======================
 // Hero Slider
 // =======================
-
 const slides = document.querySelectorAll(".banner-slider .slide");
 let current = 0;
 if (slides.length > 0) {
@@ -263,37 +260,23 @@ if (checkoutForm) {
 const sortSelect = document.getElementById("sortProducts");
 if(sortSelect){
 sortSelect.addEventListener("change", function(){
-
     const productsContainer = document.querySelector(".products");
-
     const cards = Array.from(document.querySelectorAll(".product-card"));
-
     if(this.value==="low"){
-
         cards.sort((a,b)=>
         a.dataset.price-b.dataset.price);
 
     }
-
     else if(this.value==="high"){
-
         cards.sort((a,b)=>
         b.dataset.price-a.dataset.price);
-
     }
-
     else if(this.value==="name"){
-
         cards.sort((a,b)=>
-
         a.querySelector("h3").textContent.localeCompare(
-
         b.querySelector("h3").textContent)
-
         );
-
     }
-
     cards.forEach(card=>productsContainer.appendChild(card));
 });
 }
@@ -453,7 +436,6 @@ status.innerHTML = `
 // =======================
 // Coupon Code
 // =======================
-
 const couponBtn = document.getElementById("applyCoupon");
 if(couponBtn){
     couponBtn.addEventListener("click",function(){
@@ -476,7 +458,6 @@ if(couponBtn){
 // =======================
 // Active Navigation Link
 // =======================
-
 const currentPage = window.location.pathname.split("/").pop();
 const navLinks = document.querySelectorAll(".nav a");
 navLinks.forEach(link => {
@@ -488,7 +469,6 @@ navLinks.forEach(link => {
 // =======================
 // Product Category Filter
 // =======================
-
 const filterButtons = document.querySelectorAll(".filter-btn");
 const productCards = document.querySelectorAll(".product-card");
 if (filterButtons.length > 0) {

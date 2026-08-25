@@ -3,23 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Shopping Cart - SREE VASTHRA</title>
-
 <link rel="stylesheet" href="css/style.css">
-
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
 </head>
 <body>
-
 <nav>
-
 <div class="logo">
 SREE VASTHRA
 </div>
-
 <div class="nav">
 <a href="index.html">Home</a>
 <a href="products.html">Products</a>
@@ -27,63 +20,42 @@ SREE VASTHRA
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
 </div>
-
 </nav>
-
 <section class="cart-page">
-
 <h1>Your Shopping Cart</h1>
-
 <table>
-
 <thead>
-
 <tr>
-
 <th>Product</th>
 <th>Price</th>
 <th>Quantity</th>
 <th>Total</th>
-
 </tr>
-
 </thead>
-
 <tbody id="cart-items">
-
 </tbody>
 </table>
 <div class="coupon-box">
-
     <input
         type="text"
         id="coupon"
         placeholder="Enter Coupon Code">
-
     <button id="applyCoupon">
         Apply
     </button>
-
 </div>
 <div class="grand-total">
-
 <h2 id="grand-total">grand-total : ₹0</h2>
-
 <a href="checkout.html">
     <button>Proceed to Checkout</button>
 </a>
 <button id="clearCart">
     Clear Cart
 </button>
-
 </div>
-
 </section>
-
 <footer class="footer">
-
 <p>© 2026 Sree Vasthra. All Rights Reserved.</p>
-
 </footer>
 <script src="js/cart.js"></script>
 <div id="toast"></div>

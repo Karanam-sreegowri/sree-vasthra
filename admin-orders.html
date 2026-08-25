@@ -75,6 +75,7 @@
     <option value="lowest">Lowest Total</option>
 </select>
 <div id="adminOrdersList"></div>
+<div id="orderPagination"></div>
 <!-- Order Details Modal -->
 <div id="orderModal" class="order-modal">
     <div class="order-modal-content">
@@ -91,7 +92,7 @@
     <script>
         if (localStorage.getItem("adminLoggedIn") !== "true") {
             window.location.href = "admin-login.html";
-    }
+        }
         const adminLogout =
          document.getElementById("adminLogout");
          adminLogout.addEventListener("click", function() {
@@ -135,148 +136,292 @@ function updateAdminStats() {
         ).length;
 }
 updateAdminStats();
-        if (orders.length === 0) {
+// =======================
+// Order Pagination
+// =======================
+const ordersPerPage = 10;
+let currentOrderPage = 1;
+let currentDisplayedOrders = [];
+function displayOrders(orderList) {
+    adminOrdersList.innerHTML = "";
+    const ordersPerPage = 10;
+    const totalPages = Math.ceil(orderList.length / ordersPerPage);
+    if (currentOrderPage > totalPages && totalPages > 0) {
+        currentOrderPage = totalPages;
+    }
+    if (orderList.length === 0) {
+        const hasOrders = orders.length > 0;
+        if (hasOrders) {
+            adminOrdersList.innerHTML = `
+                <div class="no-orders">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h2>No Matching Orders</h2>
+                    <p>
+                        No orders match your current search or filter.
+                    </p>
+                    <button
+                        type="button"
+                        onclick="
+                            document.getElementById('orderSearch').value = '';
+                            document.getElementById('statusFilter').value = 'All';
+                            document.getElementById('sortOrders').value = 'newest';
+                            filterOrders();
+                        ">
+                        Clear Search & Filters
+                    </button>
+                </div>
+            `;
+        } else {
             adminOrdersList.innerHTML = `
                 <div class="no-orders">
                     <i class="fa-solid fa-box-open"></i>
-                    <h2>No Orders Found</h2>
+                    <h2>No Orders Yet</h2>
                     <p>
                         There are currently no customer orders.
                     </p>
                 </div>
             `;
-        } else {
-    function displayOrders(orderList) {
-        adminOrdersList.innerHTML = "";
-        if (orderList.length === 0) {
-            adminOrdersList.innerHTML = `
-                <div class="no-orders">
-                    <i class="fa-solid fa-box-open"></i>
-                    <h2>No Orders Found</h2>
-                    <p>
-                        No orders match your search.
-                    </p>
-                </div>
-            `;
-            return;
         }
+        return;
+    }
+    const startIndex =
+        (currentOrderPage - 1) * ordersPerPage;
+    const pageOrders =
         orderList
             .slice()
             .reverse()
-            .forEach(function(order) {
-                adminOrdersList.innerHTML += `
-                    <div class="admin-order-card">
-                        <div class="admin-order-header">
-                            <h2>
-                                Order #${order.orderId}
-                            </h2>
-                            <span>
-                                ₹${order.total}
-                            </span>
-                        </div>
-                        <div class="admin-customer">
-                            <p>
-                                <strong>Customer:</strong>
-                                ${order.name}
-                            </p>
-                            <p>
-                                <strong>Email:</strong>
-                                ${order.email}
-                            </p>
-                            <p>
-                                <strong>Phone:</strong>
-                                ${order.phone}
-                            </p>
-                            <p>
-                                <strong>Date:</strong>
-                                ${order.date}
-                            </p>
-                            <p>
-                                <strong>Address:</strong>
-                                ${order.address}
-                            </p>
-                            <p>
-                                <strong>Payment:</strong>
-                                ${order.paymentMethod}
-                            </p>
-                        </div>
-                        <div class="admin-products">
-                            <h3>🛍️ Ordered Products</h3>
-                            ${
-                                order.products &&
-                                order.products.length > 0
-                                ? order.products.map(function(product) {
-                                    return `
-                                        <div class="admin-product">
-                                            <span>
-                                                ${product.name}
-                                            </span>
-                                            <span>
-                                                Qty: ${product.quantity}
-                                            </span>
-                                            <strong>
-                                                ₹${Number(product.price) * Number(product.quantity)}
-                                            </strong>
-                                        </div>
-                                    `;
-                                }).join("")
-                                : "<p>No product details available.</p>"
-                            }
-                        </div>
-                        <div class="admin-status">
-                            <label>
-                                Order Status
-                            </label>
-                            <select
-                                class="status-select"
-                                data-order-id="${order.orderId}">
-                                <option value="Order Placed"
-                                    ${order.status === "Order Placed" ? "selected" : ""}>
-                                    Order Placed
-                                </option>
-                                <option value="Order Confirmed"
-                                    ${order.status === "Order Confirmed" ? "selected" : ""}>
-                                    Order Confirmed
-                                </option>
-                                <option value="Shipped"
-                                    ${order.status === "Shipped" ? "selected" : ""}>
-                                    Shipped
-                                </option>
-                                <option value="Out for Delivery"
-                                    ${order.status === "Out for Delivery" ? "selected" : ""}>
-                                    Out for Delivery
-                                </option>
-                                <option value="Delivered"
-                                    ${order.status === "Delivered" ? "selected" : ""}>
-                                    Delivered
-                                </option>
-                                <option value="Cancelled"
-                                    ${order.status === "Cancelled" ? "selected" : ""}>
-                                    Cancelled
-                                </option>
-                            </select>
-                            <button
-                                class="update-status"
-                                data-order-id="${order.orderId}">
-                                Update Status
-                            </button>
-                            <button
-                            class="view-order"
-                            data-order-id="${order.orderId}">
-                            👁️ View Details
-                            </button>
-                            <button
-                            class="cancel-order"
-                            data-order-id="${order.orderId}"
-                            ${order.status === "Delivered" || order.status === "Cancelled" ? "disabled" : ""}>
-                            ❌ Cancel Order
-                           </button>
-                        </div>
-                    </div>
-                `;
-            });
-        attachStatusButtons();
-        attachViewButtons();
+            .slice(
+                startIndex,
+                startIndex + ordersPerPage
+            );
+    pageOrders.forEach(function(order) {
+        adminOrdersList.innerHTML += `
+            <div class="admin-order-card">
+                <div class="admin-order-header">
+                    <h2>
+                        Order #${order.orderId}
+                    </h2>
+                    <span>
+                        ₹${order.total}
+                    </span>
+                </div>
+                <div class="order-status-badge ${
+                    order.status === "Order Placed"
+                        ? "status-placed"
+                        : order.status === "Order Confirmed"
+                        ? "status-confirmed"
+                        : order.status === "Shipped"
+                        ? "status-shipped"
+                        : order.status === "Out for Delivery"
+                        ? "status-out"
+                        : order.status === "Delivered"
+                        ? "status-delivered"
+                        : "status-cancelled"
+                }">
+                    ${order.status}
+                </div>
+                <div class="admin-customer">
+                    <p>
+                        <strong>Customer:</strong>
+                        ${order.name}
+                    </p>
+                    <p>
+                        <strong>Email:</strong>
+                        ${order.email}
+                    </p>
+                    <p>
+                        <strong>Phone:</strong>
+                        ${order.phone}
+                    </p>
+                    <p>
+                        <strong>Date:</strong>
+                        ${order.date}
+                    </p>
+                    <p>
+                        <strong>Address:</strong>
+                        ${order.address}
+                    </p>
+                    <p>
+                        <strong>Payment:</strong>
+                        ${order.paymentMethod}
+                    </p>
+                </div>
+                <div class="admin-products">
+                    <h3>🛍️ Ordered Products</h3>
+                    ${
+                        order.products &&
+                        order.products.length > 0
+                        ?
+                        order.products.map(function(product) {
+                            return `
+                                <div class="admin-product">
+                                    <span>
+                                        ${product.name}
+                                    </span>
+                                    <span>
+                                        Qty: ${product.quantity}
+                                    </span>
+                                    <strong>
+                                        ₹${Number(product.price) * Number(product.quantity)}
+                                    </strong>
+                                </div>
+                            `;
+                        }).join("")
+                        :
+                        "<p>No product details available.</p>"
+                    }
+                </div>
+                <div class="admin-status">
+                    <label>
+                        Order Status
+                    </label>
+                    <select
+                        class="status-select"
+                        data-order-id="${order.orderId}">
+                        <option
+                            value="Order Placed"
+                            ${order.status === "Order Placed" ? "selected" : ""}>
+                            Order Placed
+                        </option>
+                        <option
+                            value="Order Confirmed"
+                            ${order.status === "Order Confirmed" ? "selected" : ""}>
+                            Order Confirmed
+                        </option>
+                        <option
+                            value="Shipped"
+                            ${order.status === "Shipped" ? "selected" : ""}>
+                            Shipped
+                        </option>
+                        <option
+                            value="Out for Delivery"
+                            ${order.status === "Out for Delivery" ? "selected" : ""}>
+                            Out for Delivery
+                        </option>
+                        <option
+                            value="Delivered"
+                            ${order.status === "Delivered" ? "selected" : ""}>
+                            Delivered
+                        </option>
+                        <option
+                            value="Cancelled"
+                            ${order.status === "Cancelled" ? "selected" : ""}>
+                            Cancelled
+                        </option>
+                    </select>
+                    <button
+                        class="update-status"
+                        data-order-id="${order.orderId}">
+                        Update Status
+                    </button>
+                    <button
+                        class="view-order"
+                        data-order-id="${order.orderId}">
+                        👁️ View Details
+                    </button>
+                    <button
+                        class="cancel-order"
+                        data-order-id="${order.orderId}"
+                        ${order.status === "Delivered" || order.status === "Cancelled" ? "disabled" : ""}>
+                        ❌ Cancel Order
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+attachStatusButtons();
+attachViewButtons();
+renderOrderPagination(orderList.length);
+}
+// =======================
+// Order Pagination
+// =======================
+function renderOrderPagination(totalOrders) {
+    const pagination =
+        document.getElementById("orderPagination");
+    if (!pagination) {
+        return;
+    }
+    const ordersPerPage = 10;
+    const totalPages =
+        Math.ceil(totalOrders / ordersPerPage);
+    pagination.innerHTML = "";
+    if (totalPages <= 1) {
+        return;
+    }
+    const container =
+        document.createElement("div");
+    container.className = "pagination";
+    // Previous button
+    const previousButton =
+        document.createElement("button");
+    previousButton.type = "button";
+    previousButton.textContent = "← Previous";
+    previousButton.disabled =
+        currentOrderPage === 1;
+    previousButton.addEventListener(
+        "click",
+        function() {
+            if (currentOrderPage > 1) {
+                currentOrderPage--;
+                filterOrders();
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        }
+    );
+    container.appendChild(previousButton);
+    // Page buttons
+    for (
+        let page = 1;
+        page <= totalPages;
+        page++
+    ) {
+        const pageButton =
+            document.createElement("button");
+        pageButton.type = "button";
+        pageButton.textContent = page;
+        if (page === currentOrderPage) {
+            pageButton.classList.add("active");
+        }
+        pageButton.addEventListener(
+            "click",
+            function() {
+                currentOrderPage = page;
+                filterOrders();
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        );
+        container.appendChild(pageButton);
+    }
+    // Next button
+    const nextButton =
+        document.createElement("button");
+    nextButton.type = "button";
+    nextButton.textContent = "Next →";
+    nextButton.disabled =
+        currentOrderPage === totalPages;
+    nextButton.addEventListener(
+        "click",
+        function() {
+            if (currentOrderPage < totalPages) {
+                currentOrderPage++;
+                filterOrders();
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+        }
+    );
+    container.appendChild(nextButton);
+    pagination.appendChild(container);
+}
 // =======================
 // View Order Details
 // =======================
@@ -297,7 +442,8 @@ function attachViewButtons() {
                 const productsHTML =
                     order.products &&
                     order.products.length > 0
-                    ? order.products.map(function(product) {
+                    ?
+                    order.products.map(function(product) {
                         return `
                             <div class="detail-product">
                                 <span>
@@ -312,84 +458,72 @@ function attachViewButtons() {
                             </div>
                         `;
                     }).join("")
-                    : "<p>No product details available.</p>";
-const orderModal =
-    document.getElementById("orderModal");
-const orderModalBody =
-    document.getElementById("orderModalBody");
-orderModalBody.innerHTML = `
-    <div class="order-detail-section">
-        <h3>👤 Customer Information</h3>
-        <p>
-            <strong>Name:</strong>
-            ${order.name}
-        </p>
-        <p>
-            <strong>Email:</strong>
-            ${order.email}
-        </p>
-        <p>
-            <strong>Phone:</strong>
-            ${order.phone}
-        </p>
-        <p>
-            <strong>Address:</strong>
-            ${order.address}
-        </p>
-    </div>
-    <div class="order-detail-section">
-        <h3>💳 Order Information</h3>
-        <p>
-            <strong>Order ID:</strong>
-            ${order.orderId}
-        </p>
-        <p>
-            <strong>Date:</strong>
-            ${order.date}
-        </p>
-        <p>
-            <strong>Payment:</strong>
-            ${order.paymentMethod}
-        </p>
-        <p>
-            <strong>Status:</strong>
-            ${order.status}
-        </p>
-    </div>
-    <div class="order-detail-section">
-        <h3>🛍️ Products</h3>
-        ${productsHTML}
-    </div>
-    <div class="order-detail-total">
-        Total: ₹${order.total}
-    </div>
-`;
-orderModal.style.display = "flex";
+                    :
+                    "<p>No product details available.</p>";
+                const orderModal =
+                    document.getElementById("orderModal");
+                const orderModalBody =
+                    document.getElementById("orderModalBody");
+                if (!orderModal || !orderModalBody) {
+                    console.error("Order modal elements not found.");
+                    return;
+                }
+                orderModalBody.innerHTML = `
+                    <div class="order-detail-section">
+                        <h3>👤 Customer Information</h3>
+                        <p>
+                            <strong>Name:</strong>
+                            ${order.name}
+                        </p>
+                        <p>
+                            <strong>Email:</strong>
+                            ${order.email}
+                        </p>
+                        <p>
+                            <strong>Phone:</strong>
+                            ${order.phone}
+                        </p>
+                        <p>
+                            <strong>Address:</strong>
+                            ${order.address}
+                        </p>
+                    </div>
+                    <div class="order-detail-section">
+                        <h3>💳 Order Information</h3>
+                        <p>
+                            <strong>Order ID:</strong>
+                            ${order.orderId}
+                        </p>
+                        <p>
+                            <strong>Date:</strong>
+                            ${order.date}
+                        </p>
+                        <p>
+                            <strong>Payment:</strong>
+                            ${order.paymentMethod}
+                        </p>
+                        <p>
+                            <strong>Status:</strong>
+                            ${order.status}
+                        </p>
+                    </div>
+                    <div class="order-detail-section">
+                        <h3>🛍️ Products</h3>
+                        ${productsHTML}
+                    </div>
+                    <div class="order-detail-total">
+                        Total: ₹${order.total}
+                    </div>
+                    <button
+                        class="download-invoice"
+                        onclick="downloadInvoice('${order.orderId}')">
+                        🧾 Download Invoice
+                    </button>
+                `;
+                orderModal.style.display = "flex";
             });
         });
 }
-const orderModal =
-    document.getElementById("orderModal");
-
-const closeOrderModal =
-    document.getElementById("closeOrderModal");
-
-closeOrderModal.addEventListener(
-    "click",
-    function() {
-        orderModal.style.display = "none";
-    }
-);
-orderModal.addEventListener(
-    "click",
-    function(event) {
-        if (event.target === orderModal) {
-            orderModal.style.display = "none";
-        }
-    }
-);
-}
-displayOrders(orders);
 // =======================
 // Search + Status Filter
 // =======================
@@ -399,7 +533,10 @@ const statusFilter =
     document.getElementById("statusFilter");
 const sortOrders =
     document.getElementById("sortOrders");
-function filterOrders() {
+function filterOrders(resetPage = true) {
+    if (resetPage) {
+        currentOrderPage = 1;
+    }
     const searchText =
         orderSearch.value.toLowerCase().trim();
     const selectedStatus =
@@ -571,8 +708,166 @@ document
             );
         });
     });
- }
+function downloadInvoice(orderId) {
+    const order = orders.find(function(item) {
+        return item.orderId === orderId;
+    });
+    if (!order) {
+        alert("Order not found.");
+        return;
+    }
+    let productsHTML = "";
+    if (order.products && order.products.length > 0) {
+        productsHTML = order.products.map(function(product) {
+            const quantity = Number(product.quantity);
+            const price = Number(product.price);
+            const subtotal = quantity * price;
+            return `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${quantity}</td>
+                    <td>₹${price}</td>
+                    <td>₹${subtotal}</td>
+                </tr>
+            `;
+        }).join("");
+    } else {
+        productsHTML = `
+            <tr>
+                <td colspan="4">No product details available.</td>
+            </tr>
+        `;
+    }
+    const invoiceWindow = window.open("", "_blank");
+    if (!invoiceWindow) {
+        alert("Please allow pop-ups to download the invoice.");
+        return;
+    }
+    const invoiceHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Invoice - ${order.orderId}</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    padding: 40px;
+                    color: #333;
+                }
+                .invoice {
+                    max-width: 800px;
+                    margin: auto;
+                }
+                h1 {
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                .brand {
+                    text-align: center;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+                .invoice-info {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 30px 0;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 25px;
+                }
+                th,
+                td {
+                    border: 1px solid #ddd;
+                    padding: 12px;
+                    text-align: left;
+                }
+                th {
+                    background: #f5f5f5;
+                }
+                .total {
+                    text-align: right;
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-top: 25px;
+                }
+                .footer {
+                    text-align: center;
+                    margin-top: 50px;
+                    color: #777;
+                }
+                @media print {
+                    body {
+                        padding: 0;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="invoice">
+                <div class="brand">
+                    Sree Vasthra
+                </div>
+                <h1>INVOICE</h1>
+                <div class="invoice-info">
+                    <div>
+                        <strong>Order ID:</strong>
+                        ${order.orderId}
+                        <br><br>
+                        <strong>Date:</strong>
+                        ${order.date}
+                        <br><br>
+                        <strong>Payment:</strong>
+                        ${order.paymentMethod}
+                    </div>
+                    <div>
+                        <strong>Customer:</strong>
+                        ${order.name}
+                        <br><br>
+                        <strong>Email:</strong>
+                        ${order.email}
+                        <br><br>
+                        <strong>Phone:</strong>
+                        ${order.phone}
+                    </div>
+                </div>
+                <p>
+                    <strong>Address:</strong>
+                    ${order.address}
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${productsHTML}
+                    </tbody>
+                </table>
+                <div class="total">
+                    Total: ₹${order.total}
+                </div>
+                <div class="footer">
+                    Thank you for shopping with Sree Vasthra ❤️
+                </div>
+            </div>
+        </\body>
+        </\html>
+    `;
+    invoiceWindow.document.open();
+    invoiceWindow.document.write(invoiceHTML);
+    invoiceWindow.document.close();
+    invoiceWindow.focus();
+    setTimeout(function() {
+        invoiceWindow.print();
+    }, 500);
+}
     </script>
-</div>
+</section>
 </body>
-</html>
+</body>
