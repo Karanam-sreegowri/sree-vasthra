@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - SREE VASTHRA</title>
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 <nav>
     <div class="logo">
-        SREE VASTHRA
+        <img src="images/logo.png" alt="Sree Vasthra">
     </div>
     <div class="nav">
         <a href="index.html">Home</a>
@@ -22,78 +20,44 @@
         <a href="contact.html">Contact</a>
         <a href="faq.html">FAQ</a>
     </div>
-
     <div class="icons">
         <i class="fa-regular fa-heart"></i>
         <i class="fa-solid fa-cart-shopping"></i>
         <i class="fa-regular fa-user"></i>
     </div>
-
 </nav>
-
 <section class="products">
     <h2>All Products</h2>
-    <div class="product-card">
-        <img src="images/pink kurta.webp" alt="Pink Kurti">
-        <h3>Pink Kurti</h3>
-        <p>₹999</p>
-        <i class="fa-regular fa-heart wishlist"></i>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-    </div>
-
-    <div class="product-card">
-        <img src="images/party-wear saree.jpg" alt="Party Wear Saree">
-        <h3>Party Wear Saree</h3>
-        <p>₹1299</p>
-        <i class="fa-regular fa-heart wishlist"></i>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-    </div>
-    <div class="product-card">
-        <img src="images/party-gown.jpg" alt="Party Gown">
-        <h3>Party Gown</h3>
-        <p>₹699</p>
-        <i class="fa-regular fa-heart wishlist"></i>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-    </div>
-    <div class="product-card">
-        <img src="images/kalamkari-lehenga.jpg" alt="Kalamkari Lehenga">
-        <h3>Kalamkari Lehenga</h3>
-        <p>₹1499</p>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-        <i class="fa-regular fa-heart wishlist"></i>
-    </div>
-    <div class="product-card">
-        <img src="images/sharara-set.jpg" alt="Sharara Set">
-        <h3>Sharara Set</h3>
-        <p>₹2599</p>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-        <i class="fa-regular fa-heart wishlist"></i>
-    </div>
-    <div class="product-card">
-        <img src="images/indo-western wear.jpg" alt="Indo-Western Wear">
-        <h3>Indo-Western Wear</h3>
-        <p>₹1599</p>
-        <i class="fa-regular fa-heart wishlist"></i>
-        <button class="cart-btn">
-            Add to Cart
-        </button>
-    </div>
+    <div id="productGrid" class="product-grid"></div>
 </section>
-
 <footer class="footer">
 <p>© 2026 Sree Vasthra. All Rights Reserved.</p>
 </footer>
+<script src="js/products.js"></script>
 <script src="js/script.js"></script>
+<script>
+    const productGrid = document.getElementById("productGrid");
+    if (productGrid && typeof products !== "undefined") {
+        products.forEach(function(product) {
+            productGrid.innerHTML += `
+                <div class="product-card">
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}"
+                    >
+                    <h3>${product.name}</h3>
+                    <p>₹${product.price}</p>
+                    <i class="fa-regular fa-heart wishlist"></i>
+                    <button
+                        class="cart-btn"
+                        data-id="${product.id}">
+                        Add to Cart
+                    </button>
+                </div>
+            `;
+        });
+    }
+</script>
 <div id="toast"></div>
 <a href="https://wa.me/9392860223"
    class="whatsapp"

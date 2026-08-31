@@ -8,7 +8,6 @@ const clearCart = document.getElementById("clearCart");
 // =======================
 // Display Cart
 // =======================
-
 function loadCart() {
     if (!cartItems || !grandTotal) {
         return;
@@ -31,37 +30,25 @@ function loadCart() {
 // =======================
 // Clear Cart
 // =======================
-
 if (clearCart) {
-
     clearCart.addEventListener("click", function() {
-
         localStorage.removeItem("cart");
         localStorage.removeItem("cartCount");
-
         cartData = [];
-
         loadCart();
-
         const cartCount = document.getElementById("cart-count");
-
         if (cartCount) {
             cartCount.textContent = "0";
         }
-
     });
 }
-
-
 // =======================
 // Load cart when page opens
 // =======================
-
 loadCart();
 // =======================
 // Coupon
 // =======================
-
 const couponInput = document.getElementById("coupon");
 const applyCoupon = document.getElementById("applyCoupon");
 if (applyCoupon) {
