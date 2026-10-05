@@ -10,38 +10,59 @@ function showToast(message) {
 // =======================
 // Wishlist
 // =======================
-const wishlistIcons = document.querySelectorAll(".wishlist");
+
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-wishlistIcons.forEach(icon => {
+
+document.addEventListener("click", function (e) {
+
+    const icon = e.target.closest(".wishlist");
+
+    if (!icon) return;
+
     const card = icon.closest(".product-card");
-    const nameElement = card ? card.querySelector("h3") : null;
-    const productName = nameElement
-        ? nameElement.textContent.trim()
-        : "";
-    // Restore wishlist after page refresh
-    if (wishlist.includes(productName)) {
+
+    if (!card) return;
+
+    const nameElement = card.querySelector("h3");
+    const imageElement = card.querySelector("img");
+    const priceElement = card.querySelector("p");
+
+    if (!nameElement) return;
+
+    const productName = nameElement.textContent.trim();
+
+    const product = {
+        name: productName,
+        image: imageElement
+            ? imageElement.getAttribute("src")
+            : "",
+        price: priceElement
+            ? priceElement.textContent.trim()
+            : ""
+    };
+
+    const existingIndex =
+        wishlist.findIndex(item => item.name === productName);
+
+    if (existingIndex !== -1) {
+
+        wishlist.splice(existingIndex, 1);
+
+        icon.classList.remove("fa-solid");
+        icon.classList.add("fa-regular");
+
+    } else {
+
+        wishlist.push(product);
+
         icon.classList.remove("fa-regular");
         icon.classList.add("fa-solid");
     }
-    icon.addEventListener("click", function () {
-        if (wishlist.includes(productName)) {
-            // Remove from wishlist
-            wishlist = wishlist.filter(
-                item => item !== productName
-            );
-            this.classList.remove("fa-solid");
-            this.classList.add("fa-regular");
-        } else {
-            // Add to wishlist
-            wishlist.push(productName);
-            this.classList.remove("fa-regular");
-            this.classList.add("fa-solid");
-        }
-        localStorage.setItem(
-            "wishlist",
-            JSON.stringify(wishlist)
-        );
-    });
+
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
 });
 // =======================
 // Cart Counter (Local Storage)
@@ -485,5 +506,66 @@ if (filterButtons.length > 0) {
                 }
             });
         });
+    });
+}
+// =======================
+// Display Wishlist
+// =======================
+const wishlistItems = document.getElementById("wishlistItems");
+
+if (wishlistItems) {
+
+    const savedWishlist =
+        JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    if (savedWishlist.length === 0) {
+
+        wishlistItems.innerHTML =
+            "<p>No products in your wishlist.</p>";
+
+    } else {
+
+        wishlistItems.innerHTML = savedWishlist.map(item => `
+            <div class="product-card wishlist-card">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                >
+
+                <h3>${item.name}</h3>
+
+                <p>${item.price || ""}</p>
+
+                <button
+                    class="remove-wishlist"
+                    data-name="${item.name}">
+                    Remove
+                </button>
+
+            </div>
+        `).join("");
+    }
+
+    wishlistItems.addEventListener("click", function(e) {
+
+        if (!e.target.classList.contains("remove-wishlist")) {
+            return;
+        }
+
+        const name = e.target.dataset.name;
+
+        let updatedWishlist =
+            JSON.parse(localStorage.getItem("wishlist")) || [];
+
+        updatedWishlist =
+            updatedWishlist.filter(item => item.name !== name);
+
+        localStorage.setItem(
+            "wishlist",
+            JSON.stringify(updatedWishlist)
+        );
+
+        location.reload();
     });
 }

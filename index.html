@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SREE VASTHRA</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
     <nav>
         <div class="logo">
-            <img src="images/logo.png">
+            <img src="images/logo.png" alt="SREE VASTHRA Logo">
         </div>
         <div class="nav">
             <input
@@ -82,6 +83,7 @@
                 <button class="filter-btn" data-filter="saree">Sarees</button>
                 <button class="filter-btn" data-filter="lehenga">Lehengas</button>
                 <button class="filter-btn" data-filter="party">Party Wear</button>
+                <button class="filter-btn" data-filter="Western">Indo Western</button>
             </section>
             <div class="sort-container">
                 <label>Sort By:</label>
@@ -92,21 +94,16 @@
                     <option value="name">Name (A-Z)</option>
                  </select>
             </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="kurti">Kurtis</button>
-                <button class="filter-btn" data-filter="saree">Sarees</button>
-                <button class="filter-btn" data-filter="lehenga">Lehengas</button>
-                <button class="filter-btn" data-filter="party">Party Wear</button>
-            </div>
-            <section class="products">
-                <h2>Featured Products</h2>
+    <section class="products">
+    <h2>Featured Products</h2>
     <!-- ========================= -->
     <!-- KURTIS -->
     <!-- ========================= -->
     <div class="product-card"
          data-category="kurti"
-         data-price="999">
+         data-price="999"
+         data-stock="20">
+
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/pink kurta.webp"
@@ -134,7 +131,8 @@
     </div>
     <div class="product-card"
          data-category="kurti"
-         data-price="1799">
+         data-price="1799"
+         data-stock="2">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/kurti set1.jpg"
@@ -165,7 +163,8 @@
     <!-- ========================= -->
     <div class="product-card"
          data-category="saree"
-         data-price="1299">
+         data-price="1299"
+         data-stock="100">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/party-wear saree.jpg"
@@ -193,7 +192,8 @@
     </div>
     <div class="product-card"
          data-category="saree"
-         data-price="1899">
+         data-price="1899"
+         data-stock="34">
         <span class="discount">10% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/saree party.jpg"
@@ -221,7 +221,8 @@
     </div>
     <div class="product-card"
          data-category="saree"
-         data-price="1999">
+         data-price="1999"
+         data-stock="58">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/saree party2.jpg"
@@ -249,7 +250,8 @@
     </div>
     <div class="product-card"
          data-category="saree"
-         data-price="2199">
+         data-price="2199"
+         data-stock="19">
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/saree party3.jpg"
@@ -280,7 +282,8 @@
     <!-- ========================= -->
     <div class="product-card"
          data-category="lehenga"
-         data-price="1499">
+         data-price="1499"
+         data-stock="7">
         <span class="discount">30% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/kalamkari-Lehenga.jpg"
@@ -336,7 +339,8 @@
     </div>
     <div class="product-card"
          data-category="lehenga"
-         data-price="3299">
+         data-price="3299"
+         data-stock="5">
         <span class="discount">25% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/lehenga-choli2.jpg"
@@ -367,7 +371,8 @@
     <!-- ========================= -->
     <div class="product-card"
          data-category="party"
-         data-price="699">
+         data-price="699"
+         data-stock="3">
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/party-gown.jpg"
@@ -395,7 +400,8 @@
     </div>
     <div class="product-card"
          data-category="party"
-         data-price="2499">
+         data-price="2499"
+         data-stock="87">
         <span class="discount">25% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/gown.jpg"
@@ -423,7 +429,8 @@
     </div>
     <div class="product-card"
          data-category="party"
-         data-price="2799">
+         data-price="2799"
+         data-stock="45">
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/gown1.jpg"
@@ -451,7 +458,8 @@
     </div>
     <div class="product-card"
          data-category="party"
-         data-price="2999">
+         data-price="2999"
+         data-stock="15">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/gown2.jpg"
@@ -482,7 +490,8 @@
     <!-- ========================= -->
     <div class="product-card"
          data-category="sharara"
-         data-price="2599">
+         data-price="2599"
+         data-stock="11">
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/sharara-set.jpg"
@@ -510,7 +519,8 @@
     </div>
     <div class="product-card"
          data-category="sharara"
-         data-price="2899">
+         data-price="2899"
+         data-stock="66">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/sharara-set combo.jpg"
@@ -541,7 +551,8 @@
     <!-- ========================= -->
     <div class="product-card"
          data-category="western"
-         data-price="1599">
+         data-price="1599"
+         data-stock="78">
         <span class="discount">10% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/indo-western wear.jpg"
@@ -551,9 +562,7 @@
              data-price="₹1599"
              data-image="images/indo-western wear.jpg"
              data-description="Stylish Indo-Western wear for a perfect blend of tradition and modernity.">
-
         <h3>Indo-Western Wear</h3>
-
         <div class="rating">
             <i class="fa-regular fa-star star"></i>
             <i class="fa-regular fa-star star"></i>
@@ -571,7 +580,8 @@
     </div>
     <div class="product-card"
          data-category="western"
-         data-price="1899">
+         data-price="1899"
+         data-stock="8">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/indo-western 1.jpg"
@@ -599,7 +609,8 @@
     </div>
     <div class="product-card"
          data-category="western"
-         data-price="1999">
+         data-price="1999"
+         data-stock="22">
         <span class="discount">10% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/indo-western 2.jpg"
@@ -627,7 +638,8 @@
     </div>
     <div class="product-card"
          data-category="western"
-         data-price="2199">
+         data-price="2199"
+         data-stock="76">
         <span class="discount">20% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/indo-western set.jpg"
@@ -655,7 +667,8 @@
     </div>
     <div class="product-card"
          data-category="western"
-         data-price="2299">
+         data-price="2299"
+         data-stock="1">
         <span class="discount">15% OFF</span>
         <i class="fa-regular fa-heart wishlist"></i>
         <img src="images/indo-western3.jpg"
@@ -682,18 +695,6 @@
         </button>
     </div>
 </section>
-            <section class="brand-banner">
-                <div class="banner-content">
-                    <h2>Celebrate Every Occasion with Sree Vasthra</h2>
-                    <p>
-                        Discover elegant ethnic wear crafted with premium fabrics,
-                        timeless designs, and unmatched comfort.
-                    </p>
-                    <a href="products.html">
-                        <button>Explore Collection</button>
-                    </a>
-                </div>
-            </section>
 <section class="brands">
     <h2>Our Collections</h2>
     <div class="brand-container">
@@ -712,6 +713,10 @@
         <div class="brand-card">
             <img src="images/party-gown.jpg" alt="">
             <h3>Party Wear</h3>
+        </div>
+        <div class="brand-card">
+            <img src="images/indo-western set.jpg" alt="Indo-Western">
+            <h3>Indo-Western</h3>
         </div>
     </div>
 </section>

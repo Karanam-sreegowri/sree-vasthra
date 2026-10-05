@@ -208,7 +208,6 @@ const products = [
         category: "Indo-Western",
         description: "Stylish Indo-Western dress for modern occasions."
     },
-
     {
         id: "indo-western-set",
         name: "Indo-Western Set",
@@ -217,7 +216,6 @@ const products = [
         category: "Indo-Western",
         description: "Elegant Indo-Western outfit set."
     },
-
     {
         id: "indo-western-3",
         name: "Indo-Western Collection",
