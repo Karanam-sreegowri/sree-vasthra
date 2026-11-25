@@ -126,7 +126,6 @@ const products = [
     // =========================
     // LEHENGAS
     // =========================
-
     {
         id: "kalamkari-lehenga",
         name: "Kalamkari Lehenga",
@@ -135,7 +134,6 @@ const products = [
         category: "Lehengas",
         description: "Beautiful Kalamkari lehenga with traditional styling."
     },
-
     {
         id: "lehenga",
         name: "Designer Lehenga",
@@ -144,7 +142,6 @@ const products = [
         category: "Lehengas",
         description: "Elegant designer lehenga for festive occasions."
     },
-
     {
         id: "lehenga-choli",
         name: "Lehenga Choli",
@@ -153,7 +150,6 @@ const products = [
         category: "Lehengas",
         description: "Traditional lehenga choli with beautiful styling."
     },
-
     {
         id: "lehenga-choli-2",
         name: "Festive Lehenga Choli",
@@ -162,8 +158,6 @@ const products = [
         category: "Lehengas",
         description: "Festive lehenga choli for celebrations."
     },
-
-
     // =========================
     // SHARARA
     // =========================
